@@ -6,7 +6,7 @@
 #     ports:
 #       - "8080:80"
 
-service:
+services:
   db:
     image: postgres:alpine
     environment:
@@ -19,4 +19,3 @@ service:
       - db-data:/var/lib/postgresql/data
 volumes:
   db-data:
-  
