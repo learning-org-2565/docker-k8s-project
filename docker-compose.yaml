@@ -1,5 +1,4 @@
-# docker compose file 
-version: '3.8'
+# docker compose file for a simple web server
 
 services:
   web:
