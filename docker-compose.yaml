@@ -20,5 +20,5 @@ services:
 volumes:
   db-data:
 
-docker compose exec database psql -U postgres -d myapp -c "CREATE TABLE users (id SERIAL, name TEXT); INSERT INTO users (name) VALUES ('Abhi');"
+# docker compose exec database psql -U postgres -d myapp -c "CREATE TABLE users (id SERIAL, name TEXT); INSERT INTO users (name) VALUES ('Abhi');"
 
