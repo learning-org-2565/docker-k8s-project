@@ -7,7 +7,7 @@
 #       - "8080:80"
 
 services:
-  db:
+  database:
     image: postgres:alpine
     environment:
       POSTGRES_USER: user
@@ -19,3 +19,6 @@ services:
       - db-data:/var/lib/postgresql/data
 volumes:
   db-data:
+
+docker compose exec database psql -U postgres -d myapp -c "CREATE TABLE users (id SERIAL, name TEXT); INSERT INTO users (name) VALUES ('Abhi');"
+
