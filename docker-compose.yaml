@@ -1,7 +1,22 @@
-# docker compose file for a simple web server
+# # docker compose file for a simple web server
 
-services:
-  web:
-    image: nginx:alpine
+# services:
+#   web:
+#     image: nginx:alpine
+#     ports:
+#       - "8080:80"
+
+service:
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
     ports:
-      - "8080:80"
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+volumes:
+  db-data:
+  

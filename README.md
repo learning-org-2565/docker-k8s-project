@@ -85,3 +85,16 @@ You should see Docker Compose:
 2. Starting the nginx container
 3. Logs streaming in real-time
 
+commands
+# Start in background
+docker compose up -d
+
+# Check status
+docker compose ps
+
+# View logs if needed
+docker compose logs
+
+# Follow logs in real-time
+docker compose logs -f
+
