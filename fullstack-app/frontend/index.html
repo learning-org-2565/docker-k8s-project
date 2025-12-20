@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Full Stack App</title>
+    <style>
+        body { font-family: Arial; margin: 50px; background: #f0f0f0; }
+        .container { background: white; padding: 30px; border-radius: 10px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+        #users { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Full Stack Docker App</h1>
+        <p>Frontend → Backend → Database</p>
+        <button onclick="fetchUsers()">Get Users from Database</button>
+        <div id="users"></div>
+    </div>
+    
+    <script>
+        async function fetchUsers() {
+            try {
+                const response = await fetch('http://localhost:5000/users');
+                const users = await response.json();
+                document.getElementById('users').innerHTML = 
+                    '<h3>Users:</h3>' + 
+                    users.map(u => `<p>ID: ${u.id}, Name: ${u.name}</p>`).join('');
+            } catch (error) {
+                document.getElementById('users').innerHTML = 
+                    '<p style="color:red">Error connecting to backend!</p>';
+            }
+        }
+    </script>
+</body>
+</html>
