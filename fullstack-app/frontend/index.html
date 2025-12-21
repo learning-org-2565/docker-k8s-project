@@ -20,14 +20,15 @@
     <script>
         async function fetchUsers() {
             try {
-                const response = await fetch('http://localhost:5000/users');
+                // CHANGED: Use EC2 IP instead of localhost!
+                const response = await fetch('http://13.250.37.204:5000/users');
                 const users = await response.json();
                 document.getElementById('users').innerHTML = 
                     '<h3>Users:</h3>' + 
                     users.map(u => `<p>ID: ${u.id}, Name: ${u.name}</p>`).join('');
             } catch (error) {
                 document.getElementById('users').innerHTML = 
-                    '<p style="color:red">Error connecting to backend!</p>';
+                    '<p style="color:red">Error: ' + error.message + '</p>';
             }
         }
     </script>
