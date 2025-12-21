@@ -1,24 +1,64 @@
-# # docker compose file for a simple web server
+# # # docker compose file for a simple web server
 
-# services:
-#   web:
-#     image: nginx:alpine
-#     ports:
-#       - "8080:80"
 
 services:
   database:
     image: postgres:alpine
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydb
-    ports:
-      - "5432:5432"
+      POSTGRES_DB: myapp
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: secret123
     volumes:
       - db-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U appuser -d myapp"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    environment:
+      DB_HOST: database
+      DB_NAME: myapp
+      DB_USER: appuser
+      DB_PASSWORD: secret123
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
 volumes:
   db-data:
 
-# docker compose exec database psql -U postgres -d myapp -c "CREATE TABLE users (id SERIAL, name TEXT); INSERT INTO users (name) VALUES ('Abhi');"
+# # services:
+# #   web:
+# #     image: nginx:alpine
+# #     ports:
+# #       - "8080:80"
+
+# services:
+#   database:
+#     image: postgres:alpine
+#     environment:
+#       POSTGRES_USER: user
+#       POSTGRES_PASSWORD: password
+#       POSTGRES_DB: mydb
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - db-data:/var/lib/postgresql/data
+# volumes:
+#   db-data:
+
+# # docker compose exec database psql -U postgres -d myapp -c "CREATE TABLE users (id SERIAL, name TEXT); INSERT INTO users (name) VALUES ('Abhi');"
 
