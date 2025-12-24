@@ -1,7 +1,7 @@
 
-service:
+services:
   db:
-    image: postgress:15-alpine
+    image: postgres:15-alpine
     environment:
       POSTGRES_DB: testdb
       POSTGRES_USER: postgres
@@ -9,7 +9,7 @@ service:
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    healthchecks:
+    healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d testdb"]
       interval: 5s
       timeout: 3s
@@ -32,9 +32,9 @@ service:
     depends_on:
       db:
         condition: service_healthy
-    healthchecks:
-      test: ["CMD-SHELL", "wget", "--no-verbose", "--tries=1", "--spider", "curl -f http://localhost:5000/health || exit 1"]
-      intervals: 5s
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5000/health"]
+      interval: 5s
       timeout: 3s
       retries: 3
     deploy:
