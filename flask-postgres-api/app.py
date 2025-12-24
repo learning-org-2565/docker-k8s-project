@@ -1,4 +1,5 @@
-rom flask import Flask, jsonify
+
+from flask import Flask, jsonify
 import psycopg2
 import os
 import time
@@ -45,6 +46,5 @@ def users():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    # Wait for database to be ready
     time.sleep(5)
     app.run(host='0.0.0.0', port=5000)
