@@ -1,4 +1,3 @@
-version: 3.8
 
 service:
   db:
@@ -45,3 +44,5 @@ service:
           memory: 128M
 volumes:
   postgres-data:
+
+
