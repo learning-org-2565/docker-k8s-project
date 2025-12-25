@@ -1,6 +1,6 @@
 
 services:
-  database:
+  db:
     image: postgres:15-alpine
     environment:
       POSTGRES_DB: testdb
@@ -30,7 +30,7 @@ services:
       database_USER: postgres
       database_PASSWORD: password
     depends_on:
-      database:
+      db:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5000/health"]
