@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_DB: testdb
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: postgres
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -27,8 +27,8 @@ services:
     environment:
       DB_HOST: db
       DB_NAME: testdb
-      database_USER: postgres
-      database_PASSWORD: password
+      DB_USER: postgres
+      DB_PASSWORD: password
     depends_on:
       db:
         condition: service_healthy
