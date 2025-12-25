@@ -28,7 +28,7 @@ services:
       DB_HOST: db
       DB_NAME: testdb
       DB_USER: postgres
-      DB_PASSWORD: password
+      DB_PASSWORD: postgres
     depends_on:
       database:
         condition: service_healthy
