@@ -4,7 +4,7 @@ COPY go.mod .
 COPY main.go .
 RUN go build -o go-image-worker main.go
 
-# 2nd stage -build the app
+# 2nd stage copy the binaru file only 
 FROM alpine:latest
 WORKDIR /app
 COPY --from=builder /app/go-image-worker .
