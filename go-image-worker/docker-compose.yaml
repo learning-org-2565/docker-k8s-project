@@ -1,3 +1,4 @@
+
 service:
   worker:
     build: .
@@ -8,3 +9,5 @@ service:
       interval: 10s
       timeout: 5s
       retries: 3
+
+
