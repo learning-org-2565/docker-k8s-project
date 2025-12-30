@@ -173,7 +173,7 @@ services:
       - backend_net
       - database_net
     ports:
-      - "9:9090"
+      - "8080:9090"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
