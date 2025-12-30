@@ -8,7 +8,7 @@ networks:
   monitoring_net:
     driver: bridge
 
-servcies:
+services:
   postgres:
     image: postgres:13-alpine
     networks:
@@ -27,13 +27,14 @@ servcies:
       timeout: 5s
       retries: 5
       start_period: 30s
+
   redis:
-    image: redis:6-alpine
+    image: redis:7-alpine
     networks:
       - database_net
+    command: redis-server --appendonly yes
     volumes:
       - redisdata:/data
-
     restart: always
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -42,9 +43,6 @@ servcies:
       retries: 5
       start_period: 10s
 
-
-# port mapping is not required as services communicates over internal docker networks example frontend_net, 
-# backend_net, database_net, backend:5443 liek this it connect, for external access port mapping can be done.
   api-1:
     image: python:3.9-alpine
     networks:
@@ -78,6 +76,7 @@ servcies:
       timeout: 5s
       retries: 5
       start_period: 30s
+
   api-2:
     image: python:3.9-alpine
     networks:
@@ -96,7 +95,7 @@ servcies:
              app = Flask(__name__);
              @app.route(\"/health\")
              def health():
-                 return \"API-1 OK\";
+                 return \"API-2 OK\";
              app.run(host=\"0.0.0.0\", port=8000)
              '"
     restart: always
@@ -111,6 +110,7 @@ servcies:
       timeout: 5s
       retries: 5
       start_period: 30s
+
   worker:
     image: python:3.9-alpine
     networks:
@@ -143,7 +143,7 @@ servcies:
         condition: service_healthy
       redis:
         condition: service_healthy
-  
+
   nginx:
     image: nginx:alpine
     container_name: nginx
@@ -166,7 +166,7 @@ servcies:
       timeout: 3s
       retries: 3
       start_period: 10s
-  
+
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
@@ -188,4 +188,3 @@ volumes:
   pgdata:
   redisdata:
   prometheus-data:
-    
