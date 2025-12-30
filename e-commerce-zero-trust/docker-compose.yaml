@@ -1,0 +1,10 @@
+networks:
+  frontend_net:
+    driver: bridge
+  backend_net:
+    driver: bridge
+  database_net:
+    driver: bridge
+  monitoring_net:
+    driver: bridge
+  
