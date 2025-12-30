@@ -59,14 +59,11 @@ services:
     command: >
       sh -c "apk add --no-cache wget &&
              pip install flask redis psycopg2-binary &&
-             python -c '
-             from flask import Flask;
+             python -c 'from flask import Flask;
              app = Flask(__name__);
              @app.route(\"/health\")
-             def health():
-                 return \"API-1 OK\";
-             app.run(host=\"0.0.0.0\", port=8000)
-             '"
+             def health(): return \"API-1 OK\";
+             app.run(host=\"0.0.0.0\", port=8000)'"
     restart: always
     depends_on:
       postgres:
@@ -176,7 +173,7 @@ services:
       - backend_net
       - database_net
     ports:
-      - "9090:9090"
+      - "9:9090"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
