@@ -8,7 +8,7 @@ networks:
   monitoring_net:
     driver: bridge
 
-servcies:
+services:
   postgres:
     image: postgres:13-alpine
     networks:
@@ -19,7 +19,7 @@ servcies:
       POSTGRES_DB: pdb
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - .init-db:/docker-entrypoint-initdb.d
+      - ./init-db:/docker-entrypoint-initdb.d
     restart: always
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U puser -d pdb"]
@@ -28,9 +28,10 @@ servcies:
       retries: 5
       start_period: 30s
   redis:
-    image: redis:6-alpine
+    image: redis:7-alpine
     networks:
       - database_net
+    command: redis-server --appendonly yes
     volumes:
       - redisdata:/data
 
@@ -96,7 +97,7 @@ servcies:
              app = Flask(__name__);
              @app.route(\"/health\")
              def health():
-                 return \"API-1 OK\";
+                 return \"API-2 OK\";
              app.run(host=\"0.0.0.0\", port=8000)
              '"
     restart: always
