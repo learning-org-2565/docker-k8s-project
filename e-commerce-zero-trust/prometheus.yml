@@ -3,9 +3,12 @@ global:
   evaluation_interval: 15s
 
 scrape_configs:
-  # Monitor Docker containers
-  - job_name: 'docker'
+  # Prometheus monitoring itself
+  - job_name: 'prometheus'
     static_configs:
-      - targets: ['host.docker.internal:9323']
+      - targets: ['localhost:9090']
 
-  # We'll add more targets later!
+  # Container metrics from cAdvisor
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
