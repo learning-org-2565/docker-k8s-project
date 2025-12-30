@@ -59,11 +59,7 @@ services:
     command: >
       sh -c "apk add --no-cache wget &&
              pip install flask redis psycopg2-binary &&
-             python -c 'from flask import Flask;
-             app = Flask(__name__);
-             @app.route(\"/health\")
-             def health(): return \"API-1 OK\";
-             app.run(host=\"0.0.0.0\", port=8000)'"
+             python -c 'from flask import Flask; app = Flask(__name__); exec(\"@app.route(\\\"/health\\\")\\ndef health():\\n    return \\\"API-1 OK\\\"\\napp.run(host=\\\"0.0.0.0\\\", port=8000)\")'"
     restart: always
     depends_on:
       postgres:
@@ -89,14 +85,7 @@ services:
     command: >
       sh -c "apk add --no-cache wget &&
              pip install flask redis psycopg2-binary &&
-             python -c '
-             from flask import Flask;
-             app = Flask(__name__);
-             @app.route(\"/health\")
-             def health():
-                 return \"API-2 OK\";
-             app.run(host=\"0.0.0.0\", port=8000)
-             '"
+             python -c 'from flask import Flask; app = Flask(__name__); exec(\"@app.route(\\\"/health\\\")\\ndef health():\\n    return \\\"API-2 OK\\\"\\napp.run(host=\\\"0.0.0.0\\\", port=8000)\")'"
     restart: always
     depends_on:
       postgres:
