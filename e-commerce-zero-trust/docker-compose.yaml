@@ -187,8 +187,26 @@ services:
     privileged: true
     restart: always
 
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    networks:
+      - monitoring_net
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    restart: always
+
+
 volumes:
   pgdata:
   redisdata:
   prometheus-data:
+  grafana-data:
     
