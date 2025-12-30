@@ -7,4 +7,42 @@ networks:
     driver: bridge
   monitoring_net:
     driver: bridge
-  
+
+servcies:
+  postgres:
+    image: postgres:13-alpine
+    networks:
+      - database_net
+    environment:
+      POSTGRES_USER: puser
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: pdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - .init-db:/docker-entrypoint-initdb.d
+    ports: 
+      - "5432:5432"
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U puser -d pdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  redis:
+    image: redis:6-alpine
+    networks:
+      - backend_net
+      - monitoring_net
+    volumes:
+      - redisdata:/data
+    ports:
+      - "6379:6379"
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  pgdata:
+  redisdata:
