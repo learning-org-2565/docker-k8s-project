@@ -47,3 +47,52 @@ volumes:
 
 # port mapping is not required as services communicates over internal docker networks example frontend_net, 
 # backend_net, database_net, backend:5443 liek this it connect, for external access port mapping can be done.
+  api-1:
+    image: python:3.9-alpine
+    networks:
+      - backend_net
+      - database_net
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    commands:
+      - sh -c "pip install flask redis psycopg2-binary && python -c 'from flask import Flask; app = Flask(__name__); @app.route(\"/health\") def health(): return \"OK\"; app.run(host=\"0.0.0.0\", port=8000)'"
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+  api-2:
+    image: python:3.9-alpine
+    networks:
+      - backend_net
+      - database_net
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    commands:
+      - sh -c "pip install flask redis psycopg2-binary && python -c 'from flask import Flask; app = Flask(__name__); @app.route(\"/health\") def health(): return \"OK\"; app.run(host=\"0.0.0.0\", port=8000)'"
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+      
