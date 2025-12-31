@@ -12,7 +12,7 @@ RUN mkdir /app && chown appuser:appuser /app
 
 # Copy application
 WORKDIR /app
-COPY app.py .
+COPY db-app.py .
 
 # Fix ownership of application files
 RUN chown -R appuser:appuser /app
@@ -22,7 +22,7 @@ USER appuser
 
 EXPOSE 5000
 
-CMD ["python", "app.py"]
+CMD ["python", "db-app.py"]
 
 # uid=0 = Root (CEO/Admin)
 # uid=1-999 = System users (IT staff)
