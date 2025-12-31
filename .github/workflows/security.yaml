@@ -23,6 +23,10 @@ jobs:
   # Job 2: Security Scan (BLOCKS if CRITICAL found!)
   security-scan:
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
     needs: build
     steps:
       - name: Checkout code
