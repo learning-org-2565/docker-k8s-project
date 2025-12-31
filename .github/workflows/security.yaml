@@ -17,7 +17,7 @@ jobs:
       
       - name: Build Docker image
         run: |
-          docker build -f Dockerfile.secure -t myapp:${{ github.sha }} .
+          docker build -f security-nightmare/Dockerfile.secure -t myapp:${{ github.sha }} .
           docker tag myapp:${{ github.sha }} myapp:latest
   
   # Job 2: Security Scan (BLOCKS if CRITICAL found!)
