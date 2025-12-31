@@ -1,0 +1,26 @@
+name: Demo - Security Scan FAILS
+
+on:
+  workflow_dispatch:  # Manual trigger only
+
+jobs:
+  scan-vulnerable-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Pull old vulnerable image
+        run: docker pull python:3.7-slim
+      
+      - name: Scan vulnerable image (WILL FAIL!)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'python:3.7-slim'
+          format: 'table'
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'
+        continue-on-error: false  # This will FAIL the build! ❌
+      
+      - name: This step will NEVER run
+        run: echo "Build blocked by security vulnerabilities! ✅"
