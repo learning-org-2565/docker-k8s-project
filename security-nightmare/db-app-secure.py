@@ -29,7 +29,7 @@ def home():
     """
 
 @app.route('/health')
-def health:
+def health():
     return "OK"
 
 if __name__ == '__main__':
