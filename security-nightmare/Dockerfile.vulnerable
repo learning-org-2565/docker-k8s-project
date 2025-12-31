@@ -1,0 +1,13 @@
+FROM python:3.11-slim
+
+# Install Flask
+RUN pip install flask
+
+# Copy application
+WORKDIR /app
+COPY app.py .
+
+# NOTICE: No USER instruction - runs as root by default!
+EXPOSE 5000
+
+CMD ["python", "app.py"]

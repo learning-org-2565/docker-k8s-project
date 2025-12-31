@@ -1,0 +1,3 @@
+1. "Built a Go Docker image processing worker with multi-stage Dockerfile and deployed using Docker Compose, measuring resource usage under light (77ms), medium (1.5s), and heavy load (11.9s) to determine optimal CPU and memory limits."
+2. "Demonstrates evidence-based resource limit setting to prevent runaway containers from crashing the host - critical for production where one misbehaving service can't take down the entire infrastructure."
+3. "Measured peak usage at 101% CPU and 570MB memory under heavy load, set production limit at 256MB; when container tried allocating 300MB (6×50MB memory leaks), kernel killed it with Exit 137, protecting the host system from the crash we experienced on Day 3."
