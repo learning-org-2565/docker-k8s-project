@@ -23,3 +23,7 @@ USER appuser
 EXPOSE 5000
 
 CMD ["python", "app.py"]
+
+# uid=0 = Root (CEO/Admin)
+# uid=1-999 = System users (IT staff)
+# uid=1000+ = Regular users (employees)
