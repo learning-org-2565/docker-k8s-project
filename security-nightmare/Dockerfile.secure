@@ -1,0 +1,25 @@
+FROM python:3.11-slim
+
+# Install Flask
+RUN pip install flask
+
+# CREATE NON-ROOT USER (This is the fix!)
+RUN groupadd -r appuser && \
+    useradd -r -g appuser -u 1000 appuser
+
+# Create app directory with proper ownership
+RUN mkdir /app && chown appuser:appuser /app
+
+# Copy application
+WORKDIR /app
+COPY app.py .
+
+# Fix ownership of application files
+RUN chown -R appuser:appuser /app
+
+# CRITICAL: Switch to non-root user BEFORE running app
+USER appuser
+
+EXPOSE 5000
+
+CMD ["python", "app.py"]
