@@ -1,0 +1,26 @@
+# Use newer Python version (fewer vulnerabilities)
+FROM python:3.11-slim-bookworm
+
+# Update packages to latest versions
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install Flask
+RUN pip install --no-cache-dir flask
+
+# Create non-root user
+RUN groupadd -r appuser && \
+    useradd -r -g appuser -u 1000 appuser && \
+    mkdir /app && \
+    chown appuser:appuser /app
+
+WORKDIR /app
+COPY app.py .
+RUN chown appuser:appuser app.py
+
+USER appuser
+
+EXPOSE 5000
+CMD ["python", "app.py"]
