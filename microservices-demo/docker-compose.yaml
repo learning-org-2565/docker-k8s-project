@@ -6,7 +6,7 @@ services:
   product:
     image: python:3.11-slim
     volumes:
-      - ./services/product:/app
+      - ./product:/app
     working_dir: /app
     command: sh -c "pip install flask && python product_service.py"
     ports:
@@ -17,7 +17,7 @@ services:
   cart:
     image: python:3.11-slim
     volumes:
-      - ./services/cart:/app
+      - ./cart:/app
     working_dir: /app
     command: sh -c "pip install flask && python cart_service.py"
     ports:
@@ -28,7 +28,7 @@ services:
   order:
     image: python:3.11-slim
     volumes:
-      - ./services/order:/app
+      - ./order:/app
     working_dir: /app
     command: sh -c "pip install flask && python order_service.py"
     ports:
@@ -39,7 +39,7 @@ services:
   payment:
     image: python:3.11-slim
     volumes:
-      - ./services/payment:/app
+      - ./payment:/app
     working_dir: /app
     command: sh -c "pip install flask && python payment_service.py"
     # NO EXPOSED PORTS! Load balancer will handle it
