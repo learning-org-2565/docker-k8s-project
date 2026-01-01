@@ -1,0 +1,114 @@
+
+
+
+services:
+  # MICROSERVICES
+  product:
+    image: python:3.11-slim
+    container_name: product-service
+    volumes:
+      - ./services/product:/app
+    working_dir: /app
+    command: sh -c "pip install flask && python product_service.py"
+    ports:
+      - "5001:5001"
+    networks:
+      - microservices
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+
+  cart:
+    image: python:3.11-slim
+    container_name: cart-service
+    volumes:
+      - ./services/cart:/app
+    working_dir: /app
+    command: sh -c "pip install flask && python cart_service.py"
+    ports:
+      - "5002:5002"
+    networks:
+      - microservices
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+
+  order:
+    image: python:3.11-slim
+    container_name: order-service
+    volumes:
+      - ./services/order:/app
+    working_dir: /app
+    command: sh -c "pip install flask && python order_service.py"
+    ports:
+      - "5003:5003"
+    networks:
+      - microservices
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+
+  payment:
+    image: python:3.11-slim
+    container_name: payment-service
+    volumes:
+      - ./services/payment:/app
+    working_dir: /app
+    command: sh -c "pip install flask && python payment_service.py"
+    ports:
+      - "5004:5004"
+    networks:
+      - microservices
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+
+  # MONITORING STACK
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - microservices
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - microservices
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - microservices
+
+networks:
+  microservices:
+    driver: bridge
+
+
