@@ -31,7 +31,7 @@ echo ""
 echo "📊 Check Grafana: http://YOUR_EC2_IP:3000"
 echo "📊 Check cAdvisor: http://YOUR_EC2_IP:8080"
 echo "📊 Check Prometheus: http://YOUR_EC2_IP:9090"
-EOF
+
 
 # chmod +x load-test.sh
 
