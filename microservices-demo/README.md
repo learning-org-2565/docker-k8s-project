@@ -1,3 +1,5 @@
+
+docker compose down -v --rmi all --remove-orphans
 FOCUS ON:
 ✅ WHY services need different resources
 ✅ HOW to observe which service struggles
