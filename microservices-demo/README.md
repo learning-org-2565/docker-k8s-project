@@ -43,3 +43,17 @@ DON'T NEED TO MASTER:
 - Perfect configuration ❌
 
 ![alt text](image.png)
+
+time curl -s http://localhost:5001/products > /dev/null
+
+real    0m0.021s
+user    0m0.001s
+sys     0m0.007s
+
+time curl -s -X POST http://localhost:5004/payment \
+  -H "Content-Type: application/json" \
+  -d '{"order_id": "ORD-1234", "amount": 1000}' > /dev/null
+
+real    0m3.014s
+user    0m0.008s
+sys     0m0.000s
