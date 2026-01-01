@@ -41,3 +41,5 @@ DON'T NEED TO MASTER:
 - Understanding every line of code ❌
 - Knowing all tool options ❌
 - Perfect configuration ❌
+
+![alt text](image.png)
