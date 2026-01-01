@@ -2,67 +2,49 @@
 
 
 services:
-  # MICROSERVICES
+  # MICROSERVICES (no exposed ports except product for demo)
   product:
     image: python:3.11-slim
-    #container_name: product-service
     volumes:
-      - ./product:/app
+      - ./services/product:/app
     working_dir: /app
     command: sh -c "pip install flask && python product_service.py"
     ports:
-      - "5001:5001"
+      - "5001:5001"  # Exposed for direct access
     networks:
       - microservices
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 256M
 
   cart:
     image: python:3.11-slim
-    #container_name: cart-service
     volumes:
-      - ./cart:/app
+      - ./services/cart:/app
     working_dir: /app
     command: sh -c "pip install flask && python cart_service.py"
     ports:
       - "5002:5002"
     networks:
       - microservices
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 256M
 
   order:
     image: python:3.11-slim
-    #container_name: order-service
     volumes:
-      - ./order:/app
+      - ./services/order:/app
     working_dir: /app
     command: sh -c "pip install flask && python order_service.py"
     ports:
       - "5003:5003"
     networks:
       - microservices
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 256M
 
   payment:
     image: python:3.11-slim
-    #container_name: payment-service
     volumes:
-      - ./payment:/app
+      - ./services/payment:/app
     working_dir: /app
     command: sh -c "pip install flask && python payment_service.py"
-    ports:
-      - "5004:5004"
+    # NO EXPOSED PORTS! Load balancer will handle it
+    expose:
+      - "5004"  # Internal only
     networks:
       - microservices
     deploy:
@@ -71,10 +53,22 @@ services:
           cpus: '0.5'
           memory: 256M
 
-  # MONITORING STACK
+  # LOAD BALANCER for payment service
+  payment-lb:
+    image: nginx:alpine
+    container_name: payment-lb
+    volumes:
+      - ./nginx-lb.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "5004:5004"  # External access goes through LB!
+    networks:
+      - microservices
+    depends_on:
+      - payment
+
+  # MONITORING
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
-    #container_name: cadvisor
     ports:
       - "8080:8080"
     volumes:
@@ -87,7 +81,6 @@ services:
 
   prometheus:
     image: prom/prometheus:latest
-    container_name: prometheus
     ports:
       - "9090:9090"
     volumes:
@@ -99,7 +92,6 @@ services:
 
   grafana:
     image: grafana/grafana:latest
-    container_name: grafana
     ports:
       - "3000:3000"
     environment:
@@ -110,5 +102,6 @@ services:
 networks:
   microservices:
     driver: bridge
+
 
 
