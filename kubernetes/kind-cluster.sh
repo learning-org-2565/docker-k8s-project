@@ -1,0 +1,1 @@
+kind create cluster --name my-cluster --config kind-2nodes.yaml
