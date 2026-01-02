@@ -8,5 +8,10 @@ spec:
   containers:
   - name: broken-container
     image: nginx:1.25
-    ports:
-    - containerPort: 8080
+    # ports:
+    # - containerPort: 8080
+
+
+#When I see ImagePullBackOff, I first run kubectl describe pod <name> and check the Events section at the bottom. 
+#The error message showed 'nginx:99999: not found' which tells me the image tag doesn't exist in Docker Hub. 
+#I fixed it by editing the pod manifest to use nginx:1.25 (a valid tag), then verified with kubectl get pods showing status changed from ImagePullBackOff to Running.
