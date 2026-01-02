@@ -10,3 +10,18 @@ spec:
     command: ["/bin/sh", "-c", "echo 'Simulating crash'; exit 1"]
     ports:
     - containerPort: 80
+
+  # "When I see CrashLoopBackOff, I run kubectl logs <pod-name> --previous to check the crashed container's logs. 
+  #In this example, the logs showed 'Simulating crash' which indicates the application is exiting with an error code.
+  # CrashLoopBackOff means the container successfully starts but the application inside crashes immediately, then Kubernetes keeps restarting it in an exponential backoff pattern. 
+  #Common causes are missing environment variables, database connection failures, or application code bugs."
+
+#   ImagePullBackOff:
+#   ❌ Container NEVER starts
+#   → Image doesn't exist
+#   → Check: kubectl describe (Events shows image pull error)
+
+# CrashLoopBackOff:
+#   ✅ Container DOES start
+#   ❌ Application crashes
+#   → Check: kubectl logs --previous (see why app crashed)
