@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: broken-Pod
+  name: broken-pod
   labels:
     app: webserver
 spec:
   containers:
   - name: broken-container
-    image: nonexistent-image:latest
+    image: nginx:99999
     ports:
     - containerPort: 8080
