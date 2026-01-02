@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: crash-pod
+
+spec:
+  containers:
+  - name: crash-container
+    image: nginx:1.25
+    command: ["/bin/sh", "-c", "echo 'Simulating crash'; exit 1"]
+    ports:
+    - containerPort: 80
