@@ -12,7 +12,12 @@ spec:
     image: httpd:2.4
     ports:
     - containerPort: 8080
-    #command: ["sh", "-c", "httpd-foreground -D FOREGROUND -f /dev/null -c 'Listen 8080'"]
+    command:
+      - sh
+      - -c
+      - |
+        sed -i 's/Listen 80/Listen 8080/' /usr/local/apache2/conf/httpd.conf && \
+        apachectl -D FOREGROUND
   - name: busybox
     image: busybox
     command: ["sh", '-c', 'while true; do sleep 3600; done']
