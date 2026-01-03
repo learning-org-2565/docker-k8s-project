@@ -8,6 +8,11 @@ spec:
     image: nginx:1.25
     ports:
     - containerPort: 80
+  - name: apache
+    image: httpd:2.4
+    ports:
+    - containerPort: 8080
+    command: ["sh", "-c", "httpd-foreground -D FOREGROUND -f /dev/null -c 'Listen 8080'"]
   - name: busybox
     image: busybox
     command: ["sh", '-c', 'while true; do sleep 3600; done']
