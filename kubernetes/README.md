@@ -4,6 +4,8 @@ ping -c 3 <pod ip> # to check if the traffic is accepting
 
 hostname -I
 
+docker exec my-cluster-worker2 ip route
+
 
 
 
