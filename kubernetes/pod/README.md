@@ -447,3 +447,29 @@ Pod IPs DON'T change when:
 
 * Pods keep running but can't restart if crash
 ** Only affects that specific node
+
+
+┌─────────────────────────────────────────────────────────────┐
+│  POD FUNDAMENTALS ✅                                         │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  ✅ What Pods share:                                         │
+│     - Network namespace (same IP, localhost)                 │
+│     - Volumes (same files, different mount paths)            │
+│     - IPC (shared memory)                                    │
+│                                                              │
+│  ✅ Why Pods exist:                                          │
+│     - Atomic scheduling                                      │
+│     - Atomic resource allocation                             │
+│     - Coupled lifecycle                                      │
+│     - Easier management                                      │
+│     - Sidecar pattern support                                │
+│                                                              │
+│  ✅ When to use same Pod vs separate Pods:                   │
+│     - Same Pod: Tightly coupled, must share resources        │
+│     - Separate Pods: Independent scaling, different nodes OK │
+│                                                              │
+│  ✅ Hands-on verification:                                   │
+│     - Tested network sharing (localhost works!)              │
+│     - Tested volume sharing (different mount paths work!)    │
+└─────────────────────────────────────────────────────────────┘
