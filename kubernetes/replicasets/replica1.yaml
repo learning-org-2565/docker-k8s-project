@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: nginx
-      tier: frontends
+      tier: frontend
   template:
     metadata:
       labels:
