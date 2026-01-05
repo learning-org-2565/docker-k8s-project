@@ -7,8 +7,7 @@ spec:
   initContainers:
   - name: setup
     image: busybox
-    command: ['sh', '-c', 'echo init 1; sleep 5']  # This will fail!
-  
+    command: ['sh', '-c', 'echo Init 1; sleep 5']  
   containers:
   - name: app
     image: nginx
