@@ -7,12 +7,12 @@ spec:
   selector:
     matchLabels:
       app: nginx
-      tier: frontend
+      tier: frontends
   template:
     metadata:
       labels:
         app: nginx
-        tier: frontends
+        tier: frontend
     spec:
       containers:
       - name: nginx-container
