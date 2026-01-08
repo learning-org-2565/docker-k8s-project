@@ -7,14 +7,14 @@ metadata:
     env: dev
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
   strategy:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 0
-  selector:
-    matchLabels:
-      app: nginx
     template:
       metadata:
         labels:
