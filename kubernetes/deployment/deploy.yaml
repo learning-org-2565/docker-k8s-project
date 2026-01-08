@@ -1,7 +1,8 @@
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  app: web
+  name: web
   labels:
     env: dev
 spec:
@@ -11,9 +12,9 @@ spec:
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 0
-    selector:
-      matchLabels:
-        app: nginx
+  selector:
+    matchLabels:
+      app: nginx
     template:
       metadata:
         labels:
@@ -24,3 +25,5 @@ spec:
             image: nginx:1.25
             ports:
             - containerPort: 80
+
+
