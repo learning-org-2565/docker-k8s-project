@@ -10,7 +10,7 @@ spec:
     matchLabels:
       app: postgres
   template:
-    matadata:
+    metadata:
       labels:
         app: postgres
     spec:
