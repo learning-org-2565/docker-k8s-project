@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: prod-app
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    matadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "mysecretpassword"
+            - name: POSTGRES_DB
+              value: "appdb"
+          ports:
+          - containerPort: 5432
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: prod-app
+spec:
+  selector:
+    app: postgres
+  ports:
+  - ports: 5432
+    targetPort: 5432
+    
