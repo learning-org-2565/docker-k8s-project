@@ -1,0 +1,16 @@
+# backend/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-api
+  namespace: fintech
+spec:
+  selector:
+    app: payment-api
+    tier: backend
+  ports:
+  - port: 80    # Hint: Standard HTTP port
+    targetPort: 80
+  type: ClusterIP       # Should backend be exposed externally? Think!
+
+  

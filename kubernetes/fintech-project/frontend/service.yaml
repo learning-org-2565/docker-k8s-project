@@ -1,0 +1,14 @@
+# frontend/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: fintech
+spec:
+  selector:
+    app: frontend
+    tier: frontend
+  ports:
+  - port: 80
+    targetPort: 80
+  type: NodePort  # This one SHOULD be exposed! NodePort or LoadBalancer?

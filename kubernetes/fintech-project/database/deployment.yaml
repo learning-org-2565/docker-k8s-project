@@ -1,0 +1,40 @@
+# database/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: fintech
+spec:
+  replicas: 1 # YOU FILL: How many database replicas?
+  selector:
+    matchLabels:
+      app: postgres
+      tier: database    # YOU FILL: What tier is this?
+  template:
+    metadata:
+      labels:
+        app: postgres
+        tier: database  # YOU FILL: Same as above
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15
+        env:
+        - name: POSTGRES_PASSWORD
+          value: "temporarypassword" # YOU FILL: Should we put password here? (Yes/No) for dev, for uat no
+        - name: POSTGRES_DB
+          value: "fintech"
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: password
+        ports:
+        - containerPort: 5432  # YOU FILL: PostgreSQL port?
+        resources:
+          requests:
+            memory: 512Mi  # YOU FILL: From our discussion above
+            cpu: 500m   # YOU FILL: From our discussion above
+          limits:
+            memory: 1Gi  # YOU FILL: From our discussion above
+            cpu: 1000m    # YOU FILL: From our discussion above

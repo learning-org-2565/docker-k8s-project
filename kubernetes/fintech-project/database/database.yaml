@@ -1,0 +1,9 @@
+# database/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+  namespace: fintech
+type: Opaque
+data:
+  password: UGFzc3cwcmQxMjMh  # base64 encoded "Passw0rd123!"
