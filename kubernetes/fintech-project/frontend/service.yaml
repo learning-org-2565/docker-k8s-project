@@ -1,4 +1,3 @@
-# frontend/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -11,4 +10,4 @@ spec:
   ports:
   - port: 80
     targetPort: 80
-  type: NodePort  # This one SHOULD be exposed! NodePort or LoadBalancer?
+  type: NodePort
