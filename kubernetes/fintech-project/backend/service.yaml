@@ -1,4 +1,3 @@
-# backend/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -9,8 +8,6 @@ spec:
     app: payment-api
     tier: backend
   ports:
-  - port: 80    # Hint: Standard HTTP port
+  - port: 80
     targetPort: 80
-  type: ClusterIP       # Should backend be exposed externally? Think!
-
-  
+  type: ClusterIP

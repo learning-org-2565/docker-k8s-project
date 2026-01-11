@@ -6,4 +6,4 @@ metadata:
   namespace: fintech
 type: Opaque
 data:
-  password: UGFzc3cwcmQxMjMh  # base64 encoded "Passw0rd123!"
+  password: UGFzc3cwcmQxMjMh  # base64 encoded "Passw0rd123!" 

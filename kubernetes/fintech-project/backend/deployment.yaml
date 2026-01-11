@@ -1,4 +1,3 @@
-# backend/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,12 +24,12 @@ spec:
       - name: api
         image: nginx:1.26
         ports:
-        - containerPort: 3000
+        - containerPort: 80
         env:
         - name: DATABASE_HOST
           value: "postgres"
         - name: DATABASE_PORT
-          value: "5432"  # ← Fixed!
+          value: "5432"
         resources:
           requests:
             memory: "256Mi"
@@ -38,3 +37,15 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
