@@ -34,10 +34,13 @@ sudo ls /var/lib/kubelet/pods/
 ## 5. Easier way: Execute command inside the container
 ```bash
 # Check the mounted path from inside the container
-kubectl exec -it <postgres-pod-name> -- ls -la /var/lib/postgresql/data
+kubectl exec -it postgres-db-689d49767d-xglxl -- ls -la /var/lib/postgresql/data
 
 # See what's stored
 kubectl exec -it <postgres-pod-name> -- df -h /var/lib/postgresql/data
+
+
+
 ```
 
 ## Example Output
