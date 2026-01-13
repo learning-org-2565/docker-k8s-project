@@ -1,0 +1,74 @@
+# Save this as: postgres-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-db
+  namespace: food-delivery
+  labels:
+    app: database
+    tier: backend
+spec:
+  replicas: 1  # Single database instance
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+        tier: backend
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        ports:
+        - containerPort: 5432
+          name: postgres
+        
+        env:
+        - name: POSTGRES_DB
+          value: "fooddelivery"
+        - name: POSTGRES_USER
+          value: "admin"
+        - name: POSTGRES_PASSWORD
+          value: "SecurePass123"  # In production: use Secrets!
+        
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        
+        # YOUR CORRECTED HEALTH CHECKS!
+        livenessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - admin
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        
+        readinessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - admin
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+          subPath: postgres  # Avoid permission issues
+      
+      volumes:
+      - name: postgres-storage
+        emptyDir: {}  # For learning; production uses PVC!
