@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  labels:
+    app: web
+    env: prod
+spec:
+  replicas: 3
+  selector:
+    maatchLabels:
+      app: web
+      env: prod
+  template:
+    metadata:
+      labels:
+        app: web
+        env: prod
+    spec:
+      containers:
+        - naame: nginx
+          image: nginx:1.26
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: replica-service 
+  labels:
+    app: web
+    env: prod
+spec:
+  type: ClusterIP
+  selector:
+    app: web
+    env: prod
+  ports: 
+    - port: 80
+      targetPort: 80
