@@ -24,15 +24,15 @@ spec:
             httpGet:
               path: /
               port: 80
-              initialDelaySecounds: 10
-              periodSecounds: 5
-              failurethreshold: 3
-              
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
+
           livenessProbe:
             httpGet:
               path: /
               port: 80
-              initialDelaySecounds: 10
-              periodSecounds: 5
-              failurethreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
     
