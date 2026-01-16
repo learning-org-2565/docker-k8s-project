@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-memory
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  matchLabels:
+    app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    containers:
+      - name: nginx
+        image: nginx:1.26
+        containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  app: nginx
+spec:
+  serviceType: nodeport
+  containerPort: 80
+  targetPort: 80
