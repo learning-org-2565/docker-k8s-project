@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: impossible-pod
+spec:
+  containers:
+  - name: greedy
+    image: nginx
+    resources:
+      requests:
+        cpu: "100"      # Asking for 100 CPUs!
+        memory: "500Gi" # Asking for 500GB RAM!
+      limits:
+        cpu: "100"
+        memory: "500Gi"
+# ```
+
+# **What will happen?**
+# ```
+# Your cluster has (check earlier):
+# ├─ Control plane: not for workloads
+# ├─ Worker 1: ~2-4 CPUs, ~2-4Gi memory
+# └─ Worker 2: ~2-4 CPUs, ~2-4Gi memory
+
+# Pod asks for: 100 CPUs, 500Gi memory
+
+# Scheduler: "No node has this! Can't place pod."
+# Result: PENDING forever
