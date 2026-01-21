@@ -1,0 +1,121 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecommerce-frontend
+  labels:
+    app: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.24
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+              memory: 50Mi
+            limits:
+              cpu: 300m
+              memory: 100Mi 
+# it is  comins under burstable
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-api
+  labels:
+    app: api-process
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: api-process
+  template:
+    metadata:
+      labels:
+        app: api-process
+    spec:
+      containers:
+        - name: nodejs-api
+          image: node:18-alpine
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: 150m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi 
+# it is  comes under burstable
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: session-cache
+  labels:
+    app: session-cache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: session-cache
+  template:
+    metadata:
+      labels:
+        app: session-cache
+    spec:
+      containers:
+        - name: redis
+          image: redis:7-alpine
+          ports:
+            - containerPort: 6379
+          resources:
+            requests:
+              cpu: 200m
+              memory: 1200Mi
+            limits:
+              cpu: 200m
+              memory: 1200Mi 
+# it is  comins under Guarenteed
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: image-processor
+  labels:
+    app: image-processor
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: image-processor
+  template:
+    metadata:
+      labels:
+        app: image-processor
+    spec:
+      containers:
+        - name: python
+          image: python:3.11
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 500m
+              memory: 100Mi
+            limits:
+              cpu: 2000m
+              memory: 200Mi 
+# it is  comins under burstable
