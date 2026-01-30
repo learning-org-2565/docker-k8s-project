@@ -8,11 +8,11 @@ spec:
   replicas: 4
   strategy:
     type: RollingUpdate
-    rollingupdate:
-      maxSurge: 2   # Can handle extra load
-      maxUnavailable: 1  # Only 1 pod down at a time
-  minReadySeconds: 20    # Ensure new pod stable
-  progressDeadLineSeconds: 600
+    rollingUpdate:                    # ← Fixed typo
+      maxSurge: 2
+      maxUnavailable: 1
+  minReadySeconds: 20
+  progressDeadlineSeconds: 600        # ← Fixed typo
   selector:
     matchLabels:
       purpose: payment-process
@@ -21,27 +21,23 @@ spec:
       labels: 
         purpose: payment-process
     spec:
-      terminationGracePeriodSecounds: 90   # Payment can take up to 90s
+      terminationGracePeriodSeconds: 90   # ← Fixed typo
       containers:
-        - name: nginx
-          image: nginx:1.24
-          ports:
-            - containerPort: 5000
-      resources:
-        requests:
-          cpu: 100m
-          memory: 128Mi
-        limits:
-          cpu: 100m
-          memory: 128Mi
-      readinessProbe:
-        httpGet:
-          path: /
-          port: 80
-        initialDelaySeconds: 30
-        periodSeconds: 5
-        failureThreshold: 3
-
-
-# testing
-
+      - name: nginx
+        image: nginx:1.24
+        ports:
+        - containerPort: 80             # ← Fixed port
+        resources:                       # ← Fixed indentation
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 300m                    # ← Allow burst capacity
+            memory: 256Mi
+        readinessProbe:                  # ← Fixed indentation
+          httpGet:
+            path: /
+            port: 80                     # ← Matches containerPort
+          initialDelaySeconds: 10        # ← Reduced (nginx starts fast)
+          periodSeconds: 5
+          failureThreshold: 3
