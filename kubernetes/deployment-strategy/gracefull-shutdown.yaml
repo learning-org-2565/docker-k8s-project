@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-chaos
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 10
+  progressDeadlineSeconds: 120  # Short timeout (2 mins)
+  selector:
+    matchLabels:
+      app: payment-chaos
+  template:
+    metadata:
+      labels:
+        app: payment-chaos
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: payment
+        image: nginx:1.24  # Start with working version
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+        readinessProbe:
+          httpGet:
+            path: /healthz  # BAD PATH (doesn't exist!)
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
