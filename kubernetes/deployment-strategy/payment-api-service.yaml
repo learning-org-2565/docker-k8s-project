@@ -3,12 +3,12 @@ kind: Service
 metadata:
   name: payment-api-service
   labels:
-    purpose: payment-process
+      app: payment-chaos
 spec:
   type: ClusterIP
   selector:
-    purpose: payment-process
-  ports:
+    app: payment-chaos
+  ports:  
   - name: http
     protocol: TCP
     port: 80
