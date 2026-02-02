@@ -48,3 +48,20 @@ spec:
       limits:
         cpu: "2"
         memory: 4Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tiny-pod
+  namespace: payment-ns
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.25
+    resources:
+      requests:
+        cpu: "100m"  # ← Just 0.1 CPU
+        memory: 512Mi
+      limits:
+        cpu: "200m"
+        memory: 1Gi
