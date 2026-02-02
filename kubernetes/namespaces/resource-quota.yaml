@@ -1,5 +1,17 @@
-# apiVersion: V1
-# KIND: ResourceQuota
+apiVersion: V1
+kind: ResourceQuota
+metadata:
+  name: payment-quota
+  namespace: payment-ns
+spec:
+  hard:
+    request.cpu: "2"
+    request.memory: 4Gi
+    limit.cpu: "4"
+    limit.memory: 8Gi
+---
+# apiVersion: v1
+# kind: ResourceQuota
 # metadata:
 #   name: payment-quota
 #   namespace: payment-ns
@@ -9,15 +21,3 @@
 #     request.memory: 4Gi
 #     limit.cpu: "4"
 #     limit.memory: 8Gi
----
-apiVersion: v1
-kind: ResourceQuota
-metadata:
-  name: payment-quota
-  namespace: payment-ns
-spec:
-  hard:
-    requests.cpu: "2"
-    requests.memory: 4Gi
-    limits.cpu: "4"
-    limits.memory: 8Gi
