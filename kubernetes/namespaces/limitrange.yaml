@@ -54,3 +54,20 @@ spec:
       limits:
         cpu: "4"        # ← Exceeds LimitRange max (2 CPU)
         memory: 2Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: chaos-pod-2
+  namespace: payment-ns
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.25
+    resources:
+      requests:
+        cpu: "10m"      # ← Below LimitRange min (100m)
+        memory: 128Mi   # ← Below LimitRange min (256Mi)
+      limits:
+        cpu: "500m"
+        memory: 1Gi
