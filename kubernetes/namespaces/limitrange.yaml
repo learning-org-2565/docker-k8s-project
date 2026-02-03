@@ -27,12 +27,30 @@ spec:
 # default:        → If container doesn't set limits, USE THIS
 # defaultRequest: → If container doesn't set requests, USE THIS
 ---
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: no-limits-pod
+#   namespace: payment-ns
+# spec:
+#   containers:
+#   - name: nginx
+#     image: nginx:1.25
+
+---
 apiVersion: v1
 kind: Pod
 metadata:
-  name: no-limits-pod
+  name: chaos-pod-1
   namespace: payment-ns
 spec:
   containers:
   - name: nginx
     image: nginx:1.25
+    resources:
+      requests:
+        cpu: "1"
+        memory: 1Gi
+      limits:
+        cpu: "4"        # ← Exceeds LimitRange max (2 CPU)
+        memory: 2Gi
