@@ -26,3 +26,13 @@ spec:
 # min:            → No container can set requests LOWER than this
 # default:        → If container doesn't set limits, USE THIS
 # defaultRequest: → If container doesn't set requests, USE THIS
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: no-limits-pod
+  namespace: payment-ns
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.25
