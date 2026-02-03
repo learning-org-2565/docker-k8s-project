@@ -72,7 +72,7 @@ metadata:
   namespace: payment-ns
 spec:
 
-  replicas: 5
+  replicas: 8
   selector:
     matchLabels:
       app: nginx
