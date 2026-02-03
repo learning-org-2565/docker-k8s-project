@@ -64,3 +64,29 @@ spec:
     pods: "10"              # ← Max 10 pods total
     services: "5"           # ← Max 5 services
     persistentvolumeclaims: "3"  # ← Max 3 PVCs
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+  namespace: payment-ns
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.25
+        resources:
+          requests:
+            cpu: "50m"    # ← Small enough to fit in remaining quota
+            memory: 128Mi
+          limits:
+            cpu: "100m"
+            memory: 256Mi
