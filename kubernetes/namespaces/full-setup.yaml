@@ -1,0 +1,39 @@
+apiVersion: v1 
+kind: Namespace 
+metadata:
+  name: order-ns
+---
+apiVersion: v1 
+kind: ResourceQuota
+metadata:
+  name: order-quota
+  namespace: order-ns 
+  spec:
+    hard:
+      requests.cpu: "4"
+      requests.memory: 8Gi
+      limits.cpu: "8"
+      limits.memory: 16Gi
+      pods: 20
+      services: 8
+---
+apiVersion: v1 
+kind: LimitRange
+metadata:
+  name: order-limitrange
+  namespace: order-ns
+spec:
+  type: Container
+  limits:
+  - max:
+      cpu: "4"
+      memory: 8Gi
+    min:
+      cpu: "100m"
+      memory: 256Mi
+    default:
+      cpu: "1"
+      memory: 2Gi
+    defaultRequest:
+      cpu: "300m"
+      memory: 768Mi
