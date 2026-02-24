@@ -1,0 +1,37 @@
+# Terraform files
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+*.tfstate
+*.tfstate.*
+
+# Terraform variable files (may contain sensitive data)
+# Uncomment the line below if you want to ignore tfvars
+# *.tfvars
+# *.tfvars.json
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI configuration files
+.terraformrc
+terraform.rc
+
+# Kubernetes config files
+kubeconfig
+*.kubeconfig
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
