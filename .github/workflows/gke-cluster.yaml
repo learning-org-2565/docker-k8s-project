@@ -1,4 +1,4 @@
-name: 'Deploy GKE Cluster'
+name: 'Deploy GKE Clusterr'
 
 on:
   push:
